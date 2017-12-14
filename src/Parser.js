@@ -23,7 +23,7 @@ class Parser {
   }
 
   extract(argName) {
-    const regexp = new RegExp(`-?${argName}:([A-z0-9-,/]+)`)
+    const regexp = new RegExp(`-?${argName}:([A-z0-9-_,/]+)`)
     const matched = this.args.match(regexp)
     const type = this.argTypes[argName]
 
@@ -34,9 +34,9 @@ class Parser {
 
     if (matched) {
       if (type === 'multiple') {
-        condition.value = _.compact(_.trim(matched[1]).split(','))
+        condition.value = _.compact(_.trim(matched[1].replace('_', ' ')).split(','))
       } else if (type === 'single') {
-        condition.value = _.trim(matched[1])
+        condition.value = _.trim(matched[1].replace('_', ' '))
       }
 
       condition.inclusion = !_.startsWith(matched[0], '-')
