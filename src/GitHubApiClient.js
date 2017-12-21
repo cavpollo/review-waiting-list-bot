@@ -16,11 +16,34 @@ class GitHubApiClient {
       this.github.authenticate({type: "oauth", token: AUTH_TOKEN})
     }
 
-    _.bindAll(this, ['getPullRequestsForAuthor', 'getTeamMembers', 'isTeam', 'getAllPullRequests', 'getPullRequestsForTeamOrAuthor'])
+    this.userMapping = JSON.parse(process.env.USER_MAPPING)
+
+    _.bindAll(this, ['getPullRequestsForAuthor', 'getTeamMembers', 'isTeam', 'getAllPullRequests', 'getPullRequestsForTeamOrAuthor', 'getReviewRequestsForPullRequests', 'getPullRequestReviews', 'getRequestedReviewer'])
   }
 
   getPullRequestsForAuthor(author) {
     return this.github.search.issues({q: `type:pr+state:open+author:${author}`})
+  }
+
+  getPullRequestReviews(prData) {
+    return this.github.pullRequests.getReviewRequests({owner: prData.owner, repo: prData.repo, number: prData.number})
+  }
+
+  getRequestedReviewer(requested_reviewer) {
+      const githubUsername = requested_reviewer.login
+      const slackUsername = this.userMapping[githubUsername]
+      return '@' + (slackUsername === undefined ? githubUsername : slackUsername)
+  }
+
+  async getReviewRequestsForPullRequests(prItem) {
+      const prUrlSplit = prItem.url.split('/')
+      const prData = [{owner: prUrlSplit[prUrlSplit.length-4], repo: prUrlSplit[prUrlSplit.length-3], number: parseInt(prUrlSplit[prUrlSplit.length-1]) }]
+
+      const reviewRequests = await Promise.all(prData.map(this.getPullRequestReviews))
+
+      var flatReviewRequests = _.flattenDeep(reviewRequests)
+      prItem.tagged = _.flatMap(flatReviewRequests, (prs) => prs.data.users).map(this.getRequestedReviewer)
+      return prItem
   }
 
   async getTeamMembers(teamNameWithOrg) {
@@ -43,7 +66,10 @@ class GitHubApiClient {
 
   async getAllPullRequests(authors) {
     const prs = await Promise.all(authors.value.map(this.getPullRequestsForTeamOrAuthor))
-    return _.flattenDeep(prs)
+    var flatPrs = _.flattenDeep(prs)
+    var prItems = _.flatMap(flatPrs, pr => pr.data.items)
+    await Promise.all(prItems.map(this.getReviewRequestsForPullRequests))
+    return flatPrs
   }
 
   isTeam(author) {

@@ -20,15 +20,16 @@ class App {
 
     client.getAllPullRequests(authors).then((prs) => {
       bot.startConversation(message, (err, convo) => {
-        convo.say(':memo: Review waiting list!')
+        const prMessages = new PullRequests(prs, owner, repo, label).convertToSlackMessages()
 
-        const messages = new PullRequests(prs, owner, repo, label).convertToSlackMessages()
+        if (prMessages.length > 0) {
+          var botMessage = ':warning: Attention! :warning:\nThese PRs need to be reviewed:\n'
+          _.each(prMessages, (prMessage) => botMessage += prMessage + '\n')
+          botMessage += '\nChop chop, people! :party_parrot:'
 
-        if (messages.length > 0) {
-          _.each(messages, (pr) => convo.say(pr))
-          convo.say("That's all. Please review!")
+          bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
-          convo.say('No pull requests for now.')
+          convo.say('No pull requests for now! Nothing to see here. Move along. :party_parrot:')
         }
 
         convo.next()

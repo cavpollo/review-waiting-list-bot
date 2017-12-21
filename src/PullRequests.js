@@ -50,8 +50,12 @@ class PullRequests {
     }
   }
 
+  anybodyTagged(pr) {
+      return (pr.tagged !== undefined && pr.tagged.length > 0)
+  }
+
   formatPullRequest(pr, index) {
-    return `${index+1}. \`${pr.title}\` ${pr.html_url} by ${pr.user.login}`
+    return `${index+1}. :hatched_chick: ${pr.tagged.join(' ')} \`${pr.title}\` ${pr.html_url}`
   }
 
   convertToSlackMessages() {
@@ -60,6 +64,7 @@ class PullRequests {
       .filter(this.belongsToOwner)
       .filter(this.matchesRepo)
       .filter(this.matchesLabel)
+      .filter(this.anybodyTagged)
       .map(this.formatPullRequest)
       .value()
   }
