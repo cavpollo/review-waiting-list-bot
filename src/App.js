@@ -29,7 +29,7 @@ class App {
 
           bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
-          convo.say('No pull requests for now! Nothing to see here. Move along. :party_parrot:')
+          convo.say('No pull requests for now! :party_parrot:\nNothing to see here. Move along, move along.')
         }
 
         convo.next()
