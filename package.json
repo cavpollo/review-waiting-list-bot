@@ -18,8 +18,8 @@
   "dependencies": {
     "botkit": "^0.5.5",
     "github": "^13.1.0",
-    "lodash": "^4.17.4",
-    "heroku-client": "^3.0.6"
+    "heroku-client": "^3.0.6",
+    "lodash": "^4.17.4"
   },
   "devDependencies": {
     "eslint": "^4.4.1",
