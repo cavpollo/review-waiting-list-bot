@@ -16,7 +16,7 @@ class GitHubApiClient {
       this.github.authenticate({type: "oauth", token: AUTH_TOKEN})
     }
 
-    this.userMapping = JSON.parse(process.env.USER_MAPPING)
+    this.userMapping = JSON.parse(process.env.USER_MAPPING || '{}')
 
     _.bindAll(this, ['getPullRequestsForAuthor', 'getTeamMembers', 'isTeam', 'getAllPullRequests', 'getPullRequestsForTeamOrAuthor', 'getReviewRequestsForPullRequests', 'getPullRequestReviews', 'getRequestedReviewer'])
   }
