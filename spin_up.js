@@ -7,6 +7,6 @@ heroku.patch('/apps/' + process.env.APP_NAME + '/formation/worker', {
         'size': 'hobby',
     },
 }).then(app => {
-    console.log('SpinDown:')
+    console.log('SpinUp:')
     console.log(app)
 })
