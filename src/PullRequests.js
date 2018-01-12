@@ -54,8 +54,8 @@ class PullRequests {
       return (pr.tagged !== undefined && pr.tagged.length > 0)
   }
 
-  formatPullRequest(pr, index) {
-    return `${index+1}. :hatched_chick: ${pr.tagged.join(' ')} \`${pr.title}\` ${pr.html_url}`
+  formatPullRequest(pr) {
+    return `\`${pr.title}\` ${pr.tagged.join(' ')} - ${pr.html_url}`
   }
 
   convertToSlackMessages() {
