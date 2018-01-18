@@ -6,6 +6,22 @@ const PullRequests = require('./PullRequests')
 const Parser = require('./Parser')
 const _ = require('lodash')
 
+const workMessage = ['Chop chop, people!',
+    'Hey, those PRs won\'t get approved by themselves. Go! Go! Go!',
+    'Paging Dr. Reviewer, Paging Dr. Reviewer. The patient needs 10cc of reviews, stat!',
+    'I don\'t want to point any fingers, but we need more eyeballs here.',
+    'Tip: If you are too busy, just look for a missing `final` and reject the PR, it will buy you more time. ;D',
+    'I don\'t get paid enough for this... do I even get paid at all?',
+    'Keep up to date and download our super mega awesome PR Tracker™ Chrome Extension, it almost works!!!: https://chrome.google.com/webstore/detail/pr-tracker/lmjciebmhhokgndbcibahccbdahlddli']
+
+const nothingMessage = ['Nothing to see here. Move along, move along.',
+    'Don\'t forget to tag your peers for code reviews, or they won\'t get the sweet pleasure of being pestered by me!',
+    'Remember to tag your PRs... or I will ignore them like I did just now ¬¬.',
+    'So this is what they mean by "The calm before the storm"...',
+    'I guess everyone is busy coding... right? RIGHT?!',
+    'Don\'t mind me, I\'m just a bot, and bots don\' have feelings... :sad_parrot:',
+    'I wish I had fingers to code... I would be the most productive parrot bot ever!']
+
 class App {
   static start() {
     const controller = new SlackBot().getController()
@@ -23,19 +39,23 @@ class App {
         const prMessages = new PullRequests(prs, owner, repo, label).convertToSlackMessages()
 
         if (prMessages.length > 0) {
-          var botMessage = ':warning: Attention! :warning:\nThese PRs need to be reviewed:\n'
+          var botMessage = ':warning: Attention! :warning:\nThese PRs with label ' + label.value.join(', ') + ' need to be reviewed:\n'
           _.each(prMessages, (prMessage) => botMessage += prMessage + '\n')
-          botMessage += '\nChop chop, people! :party_parrot:'
+          botMessage += '\n :party_parrot:' + getRandomMessage(workMessage)
 
           bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
-          convo.say('No pull requests for now! :party_parrot:\nNothing to see here. Move along, move along.')
+          convo.say('No pull requests for now! :party_parrot:\n' + getRandomMessage(nothingMessage))
         }
 
         convo.next()
       })
     })
   }
+}
+
+function getRandomMessage(messages){
+    return messages[Math.floor(Math.random() * messages.length)]
 }
 
 module.exports = App
