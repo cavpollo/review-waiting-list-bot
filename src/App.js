@@ -15,7 +15,7 @@ const workMessage = ['Chop chop, people!',
     'It is not easy being a passive-aggressive nagging parrot bot, but someone has to do it.',
     'Don\'t forget checking for code formatting, or the next thing we know we will be using tab indentation! Oh, the horror!',
     'This service was brought to you by "The Cult of the Parrot". The only cult were partying is encouraged.',
-    'For the holy party parrot in the sky, please let these prs be less than 10 files :pray:',
+    'For the holy party parrot in the sky, please let these prs be less than 10 files each :pray:',
     'Keep up to date and download our super mega awesome PR Tracker™ Chrome Extension, it *almost* works!!!: https://chrome.google.com/webstore/detail/pr-tracker/lmjciebmhhokgndbcibahccbdahlddli']
 
 const nothingMessage = ['Nothing to see here. Move along, move along.',
@@ -23,7 +23,7 @@ const nothingMessage = ['Nothing to see here. Move along, move along.',
     'Remember to tag your PRs... or I will ignore them like I did just now ¬¬.',
     'So this is what they mean by "The calm before the storm"...',
     'Huh, nothing... I guess everyone is busy coding... right? RIGHT?!',
-    'Ignore me, I\'m just a bot, and bots don\' have feelings... :sad_parrot:',
+    'Ignore me, I\'m just a bot, and bots don\'t have feelings... :sad_parrot:',
     'Now would be a good time to be grateful for my altruistic services. I accept credit cards and all cryptocurrencies.',
     'I wish I had fingers to code... I would help to pair program, or even code review. Imagine the possibilities!']
 
