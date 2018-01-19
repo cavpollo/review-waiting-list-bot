@@ -12,15 +12,20 @@ const workMessage = ['Chop chop, people!',
     'I don\'t want to point any fingers, but we need more eyeballs here.',
     'Tip: If you are too busy, just look for a missing `final` and reject the PR, it will buy you more time. ;D',
     'I don\'t get paid enough for this... do I even get paid at all?',
-    'Keep up to date and download our super mega awesome PR Tracker™ Chrome Extension, it almost works!!!: https://chrome.google.com/webstore/detail/pr-tracker/lmjciebmhhokgndbcibahccbdahlddli']
+    'It is not easy being a passive-aggressive nagging parrot bot, but someone has to do it.',
+    'Don\'t forget checking for code formatting, or the next thing we know we will be using tab indentation! Oh, the horror!',
+    'This service was brought to you by "The Cult of the Parrot". The only cult were partying is encouraged.',
+    'For the holy party parrot in the sky, please let these prs be less than 10 files :pray:',
+    'Keep up to date and download our super mega awesome PR Tracker™ Chrome Extension, it *almost* works!!!: https://chrome.google.com/webstore/detail/pr-tracker/lmjciebmhhokgndbcibahccbdahlddli']
 
 const nothingMessage = ['Nothing to see here. Move along, move along.',
     'Don\'t forget to tag your peers for code reviews, or they won\'t get the sweet pleasure of being pestered by me!',
     'Remember to tag your PRs... or I will ignore them like I did just now ¬¬.',
     'So this is what they mean by "The calm before the storm"...',
-    'I guess everyone is busy coding... right? RIGHT?!',
-    'Don\'t mind me, I\'m just a bot, and bots don\' have feelings... :sad_parrot:',
-    'I wish I had fingers to code... I would be the most productive parrot bot ever!']
+    'Huh, nothing... I guess everyone is busy coding... right? RIGHT?!',
+    'Ignore me, I\'m just a bot, and bots don\' have feelings... :sad_parrot:',
+    'Now would be a good time to be grateful for my altruistic services. I accept credit cards and all cryptocurrencies.',
+    'I wish I had fingers to code... I would help to pair program, or even code review. Imagine the possibilities!']
 
 class App {
   static start() {
@@ -45,7 +50,7 @@ class App {
 
           bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
-          convo.say('No pull requests for now! :party_parrot:\n' + getRandomMessage(nothingMessage))
+          convo.say('No pull requests with label \' + label.value.join(\', \') + \' for now! :party_parrot:\n' + getRandomMessage(nothingMessage))
         }
 
         convo.next()
