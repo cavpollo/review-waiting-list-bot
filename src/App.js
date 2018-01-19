@@ -16,6 +16,7 @@ const workMessage = ['Chop chop, people!',
     'Don\'t forget checking for code formatting, or the next thing we know we will be using tab indentation! Oh, the horror!',
     'This service was brought to you by "The Cult of the Parrot". The only cult were partying is encouraged.',
     'For the holy party parrot in the sky, please let these prs be less than 10 files each :pray:',
+    'I think I speak on behalf of everyone, that we would be much honored if you people could critique this beautiful pieces of art.',
     'Keep up to date and download our super mega awesome PR Tracker™ Chrome Extension, it *almost* works!!!: https://chrome.google.com/webstore/detail/pr-tracker/lmjciebmhhokgndbcibahccbdahlddli']
 
 const nothingMessage = ['Nothing to see here. Move along, move along.',
@@ -46,7 +47,7 @@ class App {
         if (prMessages.length > 0) {
           var botMessage = ':warning: Attention! :warning:\nThese PRs with label ' + label.value.join(', ') + ' need to be reviewed:\n'
           _.each(prMessages, (prMessage) => botMessage += prMessage + '\n')
-          botMessage += '\n :party_parrot:' + getRandomMessage(workMessage)
+          botMessage += '\n:party_parrot: ' + getRandomMessage(workMessage)
 
           bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
