@@ -15,8 +15,9 @@ const workMessage = ['Chop chop, people!',
     'It is not easy being a passive-aggressive nagging parrot bot, but someone has to do it.',
     'Don\'t forget checking for code formatting, or the next thing we know we will be using tab indentation! Oh, the horror!',
     'This service was brought to you by "The Cult of the Parrot". The only cult were partying is encouraged.',
-    'For the holy party parrot in the sky, please let these prs be less than 10 files each :pray:',
-    'I think I speak on behalf of everyone, that we would be much honored if you people could critique this beautiful pieces of art.',
+    'For the holy party parrot in the sky, please let these PRs be less than 10 files each :pray:',
+    'It could be worse, you know? You could be forced to do QA to this code... :cold_sweat:',
+    'I think I speak on behalf of everyone when I say, that we would be much honored if you people could critique this beautiful pieces of art.',
     'Keep up to date and download our super mega awesome PR Tracker™ Chrome Extension, it *almost* works!!!: https://chrome.google.com/webstore/detail/pr-tracker/lmjciebmhhokgndbcibahccbdahlddli']
 
 const nothingMessage = ['Nothing to see here. Move along, move along.',
@@ -25,6 +26,7 @@ const nothingMessage = ['Nothing to see here. Move along, move along.',
     'So this is what they mean by "The calm before the storm"...',
     'Huh, nothing... I guess everyone is busy coding... right? RIGHT?!',
     'Ignore me, I\'m just a bot, and bots don\'t have feelings... :sad_parrot:',
+    'Don\'t blame me if your PR is not listed here. I\'m just a parrot that doesn\'t know what he is doing most of the time.',
     'Now would be a good time to be grateful for my altruistic services. I accept credit cards and all cryptocurrencies.',
     'I wish I had fingers to code... I would help to pair program, or even code review. Imagine the possibilities!']
 
