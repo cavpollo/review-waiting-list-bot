@@ -54,7 +54,7 @@ class App {
 
           bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
-          convo.say('No pull requests with label \' + label.value.join(\', \') + \' for now! :party_parrot:\n' + getRandomMessage(nothingMessage))
+          convo.say('No pull requests with label ' + label.value.join(', ') + ' for now! :party_parrot:\n' + getRandomMessage(nothingMessage))
         }
 
         convo.next()
