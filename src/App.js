@@ -26,6 +26,7 @@ const nothingMessage = ['Nothing to see here. Move along, move along.',
     'So this is what they mean by "The calm before the storm"...',
     'Huh, nothing... I guess everyone is busy coding... right? RIGHT?!',
     'Ignore me, I\'m just a bot, and bots don\'t have feelings... :sad_parrot:',
+    'Oh, crackers... I hate when this happens. I mean, when I don\'t get to give you orders.',
     'Don\'t blame me if your PR is not listed here. I\'m just a parrot that doesn\'t know what he is doing most of the time.',
     'Now would be a good time to be grateful for my altruistic services. I accept credit cards and all cryptocurrencies.',
     'I wish I had fingers to code... I would help to pair program, or even code review. Imagine the possibilities!']
