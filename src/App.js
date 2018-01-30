@@ -7,15 +7,19 @@ const Parser = require('./Parser')
 const _ = require('lodash')
 
 const workMessage = ['Chop chop, people!',
+    'Ha! And you thought your day couldn\'t get any worse...',
     'Hey, those PRs won\'t get approved by themselves. Go! Go! Go!',
     'Paging Dr. Reviewer, Paging Dr. Reviewer. The patient needs 10cc of reviews, stat!',
     'I don\'t want to point any fingers, but we need more eyeballs here.',
     'Tip: If you are too busy, just look for a missing `final` and reject the PR, it will buy you more time. ;D',
     'I don\'t get paid enough for this... do I even get paid at all?',
+    'It\'s all fun and games until somebody gets his PR closed. Remember to check CircleCI\' status before submitting PRs for review.',
+    'My parrot sense is tingling! I sense some smelly code!',
     'It is not easy being a passive-aggressive nagging parrot bot, but someone has to do it.',
     'Don\'t forget checking for code formatting, or the next thing we know we will be using tab indentation! Oh, the horror!',
     'This service was brought to you by "The Cult of the Parrot". The only cult were partying is encouraged.',
     'For the holy party parrot in the sky, please let these PRs be less than 10 files each :pray:',
+    'Could somebody show some mercy and put these PRs out of their misery? I mean, just look at them.',
     'It could be worse, you know? You could be forced to do QA to this code... :cold_sweat:',
     'I think I speak on behalf of everyone when I say, that we would be much honored if you people could critique this beautiful pieces of art.',
     'Keep up to date and download our super mega awesome PR Tracker™ Chrome Extension, it *almost* works!!!: https://chrome.google.com/webstore/detail/pr-tracker/lmjciebmhhokgndbcibahccbdahlddli']
