@@ -7,7 +7,7 @@ const Parser = require('./Parser')
 const _ = require('lodash')
 
 const workMessage = ['Chop chop, people!',
-    'Ha! And you thought your day couldn\'t get any worse...',
+    'Ha! And you thought your day couldn\'t get any more boring...',
     'Hey, those PRs won\'t get approved by themselves. Go! Go! Go!',
     'Paging Dr. Reviewer, Paging Dr. Reviewer. The patient needs 10cc of reviews, stat!',
     'I don\'t want to point any fingers, but we need more eyeballs here.',
