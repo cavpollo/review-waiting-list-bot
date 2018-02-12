@@ -34,9 +34,9 @@ class Parser {
 
     if (matched) {
       if (type === 'multiple') {
-        condition.value = _.compact(_.trim(matched[1].replace('_', ' ')).split(','))
+        condition.value = _.compact(_.trim(matched[1].split('_').join(' ')).split(','))
       } else if (type === 'single') {
-        condition.value = _.trim(matched[1].replace('_', ' '))
+        condition.value = _.trim(matched[1].split('_').join(' '))
       }
 
       condition.inclusion = !_.startsWith(matched[0], '-')
