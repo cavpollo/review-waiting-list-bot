@@ -74,6 +74,9 @@ class App {
         convo.next()
       })
     })
+    .catch(function(){
+        console.error("Promise Rejected")
+    })
   }
 }
 
