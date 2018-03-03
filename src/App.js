@@ -2,9 +2,7 @@
 
 const SlackBot = require('./SlackBot')
 const GitHubApiClient = require("./GitHubApiClient")
-const PullRequests = require('./PullRequests')
 const Parser = require('./Parser')
-const _ = require('lodash')
 
 const workMessage = ['Chop chop, people!',
     'Ha! And you thought your day couldn\'t get any more boring...',
@@ -53,31 +51,39 @@ class App {
   }
 
   static ls(bot, message) {
-    const {authors, owner, repo, label} = new Parser(message.match[1]).parse()
+    const {organization, labels} = new Parser(message.match[1]).parse()
 
     const client = new GitHubApiClient()
 
-    client.getAllPullRequests(authors).then((prs) => {
+    client.getAllPullRequests(organization, labels).then((pullRequests) => {
       bot.startConversation(message, (err, convo) => {
-        const prMessages = new PullRequests(prs, owner, repo, label).convertToSlackMessages()
-
-        if (prMessages.length > 0) {
-          var botMessage = ':warning: Attention! :warning:\nThese PRs with label ' + label.value.join(', ') + ' need to be reviewed:\n'
-          _.each(prMessages, (prMessage) => botMessage += prMessage + '\n')
-          botMessage += '\n:party_parrot: ' + getRandomMessage(workMessage)
+        if (pullRequests.length > 0) {
+          var botMessage = ':warning: Attention! :warning:\nThese PRs with labels ' + labels.join(', ') + ' need to be reviewed:\n'
+          botMessage += pullRequests.map(formatPullRequest).join('\n')
+          botMessage += '\n\n:party_parrot: ' + getRandomMessage(workMessage)
 
           bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
-          convo.say('No pull requests with label ' + label.value.join(', ') + ' for now! :party_parrot:\n' + getRandomMessage(nothingMessage))
+          convo.say('No pull requests with labels ' + labels.join(', ') + ' for now! :party_parrot:\n' + getRandomMessage(nothingMessage))
         }
 
         convo.next()
       })
     })
-    .catch(function(){
-        console.error("Promise Rejected")
+    .catch(function(error){
+        console.error("Fatal error =(")
+        console.error(error)
+
+        bot.startConversation(message, (err, convo) => {
+            convo.say('Sorry, something went wrong and I don\'t know how to fix it... I\'m just a parrot :sad_parrot:')
+            convo.next()
+        })
     })
   }
+}
+
+function formatPullRequest(pullRequest) {
+    return `\`${pullRequest.title}\` ${pullRequest.tagged ? pullRequest.tagged.join(' ') : ''} - ${pullRequest.html_url}`
 }
 
 function getRandomMessage(messages){

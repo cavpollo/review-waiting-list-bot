@@ -1,49 +1,45 @@
 'use strict'
 
-const _ = require('lodash')
-
 class Parser {
-  constructor(args) {
-    this.args = args
-    this.argTypes = {
-      author: 'multiple',
-      owner: 'single',
-      repo: 'multiple',
-      label: 'multiple',
-    }
-  }
-
-  parse() {
-    return {
-      authors: this.extract('author'),
-      owner: this.extract('owner'),
-      repo: this.extract('repo'),
-      label: this.extract('label'),
-    }
-  }
-
-  extract(argName) {
-    const regexp = new RegExp(`-?${argName}:([A-z0-9-_,/]+)`)
-    const matched = this.args.match(regexp)
-    const type = this.argTypes[argName]
-
-    let condition ={
-      value: (type === 'multiple' ? [] : ''),
-      inclusion: true,
+    constructor(args) {
+        this.args = args
+        this.argTypes = {
+            organization: 'single',
+            labels: 'multiple',
+        }
     }
 
-    if (matched) {
-      if (type === 'multiple') {
-        condition.value = _.compact(_.trim(matched[1].split('_').join(' ')).split(','))
-      } else if (type === 'single') {
-        condition.value = _.trim(matched[1].split('_').join(' '))
-      }
-
-      condition.inclusion = !_.startsWith(matched[0], '-')
+    parse() {
+        return {
+            organization: this.extract('organization'),
+            labels: this.extract('labels'),
+        }
     }
 
-    return condition
-  }
+    extract(argName) {
+        const type = this.argTypes[argName]
+
+        let argValue = (type === 'multiple' ? [] : '')
+
+        var regexp = new RegExp()
+        if (type === 'multiple') {
+            regexp = new RegExp(`${argName}:"([A-z0-9-_,/ ]+)"`)
+        } else if (type === 'single') {
+            regexp = new RegExp(`${argName}:"([A-z0-9-_/ ]+)"`)
+        }
+
+        const matched = this.args.match(regexp)
+
+        if (matched) {
+            if (type === 'multiple') {
+                argValue = matched[1].split(',').map(match => match.trim())
+            } else if (type === 'single') {
+                argValue = matched[1].trim()
+            }
+        }
+
+        return argValue
+    }
 }
 
 module.exports = Parser
