@@ -53,31 +53,28 @@ class App {
   static ls(bot, message) {
     const {organization, labels} = new Parser(message.match[1]).parse()
 
+    console.log('Filtering requests for [Org:' + organization + '][Labels:' + labels.join(',') + ']!')
+
     const client = new GitHubApiClient()
 
     client.getAllPullRequests(organization, labels).then((pullRequests) => {
-      bot.startConversation(message, (err, convo) => {
         if (pullRequests.length > 0) {
-          var botMessage = ':warning: Attention! :warning:\nThese PRs with labels ' + labels.join(', ') + ' need to be reviewed:\n'
-          botMessage += pullRequests.map(formatPullRequest).join('\n')
-          botMessage += '\n\n:party_parrot: ' + getRandomMessage(workMessage)
+            var botMessage = ':warning: Attention! :warning:\nThese PRs with labels ' + labels.join(', ') + ' need to be reviewed:\n'
+            botMessage += pullRequests.map(formatPullRequest).join('\n')
+            botMessage += '\n\n:party_parrot: ' + getRandomMessage(workMessage)
 
-          bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
+            bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
-          convo.say('No pull requests with labels ' + labels.join(', ') + ' for now! :party_parrot:\n' + getRandomMessage(nothingMessage))
+            bot.reply({channel: message.channel}, {'text': 'No pull requests with labels ' + labels.join(', ') + ' for now! :party_parrot:\n' + getRandomMessage(nothingMessage)})
         }
 
-        convo.next()
-      })
+        console.log('Done notifying')
     })
     .catch(function(error){
         console.error("Fatal error =(")
         console.error(error)
 
-        bot.startConversation(message, (err, convo) => {
-            convo.say('Sorry, something went wrong and I don\'t know how to fix it... I\'m just a parrot :sad_parrot:')
-            convo.next()
-        })
+        bot.reply({channel: message.channel}, {'text': 'Sorry, something went wrong and I don\'t know how to fix it... I\'m just a parrot :sad_parrot:'})
     })
   }
 }

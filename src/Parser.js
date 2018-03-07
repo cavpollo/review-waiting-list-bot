@@ -11,8 +11,8 @@ class Parser {
 
     parse() {
         return {
-            organization: this.extract('organization'),
-            labels: this.extract('labels'),
+            organization: this.extractOrganization('author', 'organization'),
+            labels: this.extractLabels('label', 'labels'),
         }
     }
 
@@ -39,6 +39,30 @@ class Parser {
         }
 
         return argValue
+    }
+
+    extractOrganization(deprecatedArgName, newArgName) {
+        const regexp = new RegExp(`${deprecatedArgName}:([A-z0-9-_/]+)`)
+
+        const matched = this.args.match(regexp)
+
+        if (matched) {
+            return matched[1].split('/')[0]
+        }
+
+        return this.extract(newArgName)
+    }
+
+    extractLabels(deprecatedArgName, newArgName) {
+        const regexp = new RegExp(`${deprecatedArgName}:([A-z0-9-_/]+)`)
+
+        const matched = this.args.match(regexp)
+
+        if (matched) {
+            return matched[1].split(',').map(match => match.replace('_', ' '))
+        }
+
+        return this.extract(newArgName)
     }
 }
 

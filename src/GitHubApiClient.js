@@ -50,7 +50,7 @@ class GitHubApiClient {
     async getAllPullRequests(organization, labels) {
         const pullRequestsResponse = await this.getOrganizationOpenPullPromise(organization)
 
-        // console.log(pullRequestsResponse.data.total_count + ' Pull Requests Found for [' + organization + '][' + labels.join(',') + ']!')
+        // console.log(pullRequestsResponse.data.total_count + ' Pull Requests Found')
 
         const pullRequests = pullRequestsResponse.data.items
 
@@ -59,14 +59,14 @@ class GitHubApiClient {
         if (labels.length > 0) {
             filteredPullRequests = pullRequests.filter(pr => this.pullRequestContainsLabel(pr, labels))
 
-            // console.log(filteredPullRequests.length + ' Pull Requests Matched Label for [' + organization + '][' + labels.join(',') + ']!')
+            // console.log(filteredPullRequests.length + ' Pull Requests Matched Label')
         }
 
         await Promise.all(filteredPullRequests.map(this.getReviewRequestsForPullRequest))
 
         filteredPullRequests = filteredPullRequests.filter(this.isAnyBodyTagged)
 
-        // console.log(filteredPullRequests.length + ' Pull Requests Matched Review Request for [' + organization + '][' + labels.join(',') + ']!')
+        console.log(filteredPullRequests.length + ' Pull Requests Matched Review Request')
 
         return filteredPullRequests
     }
