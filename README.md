@@ -1,81 +1,31 @@
-# Let's encourage your team's review
-
-[![Build Status](https://travis-ci.org/ohbarye/review-waiting-list-bot.svg?branch=master)](https://travis-ci.org/ohbarye/review-waiting-list-bot)
+# Party Parrots in you Slack review team!
 
 ## What's this?
 
-It's a Slack bot to list up review waiting list.
-
-<img width="1035" alt="2017-08-11 11 15 31" src="https://user-images.githubusercontent.com/1811616/29199753-659fd0e2-7e8a-11e7-8435-99daa8c0b233.png">
-
+It's a Slack Party Parrot bot to list up review waiting list based on [the original review waiting list bot](https://github.com/ohbarye/review-waiting-list-bot), but simplified for my use case.
 
 ## Usage
 
-In your Slack room, just call your bot.
+In your Slack room, just call the bot.
 
 ```
-/invite @review-bot
-@review-bot ls author:ohbarye,basan,org/team owner:ohbarye repo:ohbarye/review-waiting-list-bot,rails/rails
+/invite @parrotbot
+@parrotbot ls organization:"pay-code" labels:"CODE REVIEW"
 ```
 
 argument | presence | description
 --- | --- | ---
-author | Required | You can specify multiple authors with comma separated values. Also `org/team` is available.
-owner | Optional | It allows only one owner. If you specify this argument with `-` (e.g. `-owner:ohbarye`), it excludes pull requests of the owner.
-repo | Optional | You can specify multiple repositories. If you specify this argument with `-` (e.g. `-repo:ohbarye/review-waiting-list-bot`), it excludes pull requests in the repositories.
-label | Optional | You can specify multiple labels. If you specify this argument with `-` (e.g. `-label:enhancement`), it excludes pull requests in the repository.
-
-Besides, the bot accepts random order.
+organization | Required | Your organization name.
+labels | Optional | You can specify multiple labels comma separated.
 
 ### Tips
 
-You can use this bot even better in combination with the [Slack reminder](https://get.slack.help/hc/en-us/articles/208423427-Set-a-reminder).
+You can use this bot even better in combination with the Slack reminder.
 
 For instance, the following reminder setting invokes the bot every weekday 11 am.
 
 ```
-/remind #general “@review-bot ls author:ohbarye,basan,org/team owner:ohbarye repo:ohbarye/review-waiting-list-bot,rails/rails” at 11am every weekday
+/remind #general “@parrotbot ls organization:"pay-code" labels:"CODE REVIEW"” at 10am every weekday
 ```
 
-## Develop
-
-### Setup
-
-```sh
-$ git clone git@github.com:ohbarye/review-waiting-list-bot.git
-$ npm install -g yarn # or brew install yarn
-$ yarn
-```
-
-### Start
-
-```sh
-$ SLACK_BOT_TOKEN=your-slack-bot-token GITHUB_AUTH_TOKEN=your-github-auth-token yarn start
-```
-
-### Test / Lint
-
-```sh
-$ yarn test
-$ yarn lint
-```
-
-## Deployment
-
-If you want to deploy to Heroku, just click following button.
-
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
-
-## Environment Variables
-
-### SLACK_BOT_TOKEN (required)
-
-Slack bot API token.
-
-If you do not have it yet, visit https://my.slack.com/services/new/bot and get the token.
-
-
-### GITHUB_AUTH_TOKEN (required)
-
-GitHub bot API token.
-If you're not familiar with it, see https://help.github.com/articles/creating-a-personal-access-token-for-the-command-line/
+<img src="http://cultofthepartyparrot.com/parrots/hd/parrot.gif" width="32" height="32">
