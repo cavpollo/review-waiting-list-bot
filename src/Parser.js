@@ -59,7 +59,7 @@ class Parser {
         const matched = this.args.match(regexp)
 
         if (matched) {
-            return matched[1].split(',').map(match => match.replace('_', ' '))
+            return matched[1].split(',').map(match => match.split('_').join(' '))
         }
 
         return this.extract(newArgName)
