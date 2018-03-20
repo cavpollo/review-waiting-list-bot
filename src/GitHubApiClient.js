@@ -1,19 +1,15 @@
 'use strict'
 
-const GitHubApi = require("github")
+const max_page_size = 100
+const octokit = require("@octokit/rest")()
 const _ = require("lodash")
 
 class GitHubApiClient {
     constructor() {
-        this.github = new GitHubApi({
-            debug: !!process.env.DEBUG,
-            timeout: 5000,
-        })
-
         const AUTH_TOKEN = process.env.GITHUB_AUTH_TOKEN
 
         if (AUTH_TOKEN) {
-            this.github.authenticate({type: "oauth", token: AUTH_TOKEN})
+            octokit.authenticate({type: "oauth", token: AUTH_TOKEN})
         }
 
         this.userMapping = JSON.parse(process.env.USER_MAPPING || '{}')
@@ -23,7 +19,7 @@ class GitHubApiClient {
 
     async getOrganizationOpenPullPromise(organization) {
         const query = `type:pr+state:open+org:${organization}`
-        return this.github.search.issues({q: query})
+        return octokit.search.issues({q: query, per_page: max_page_size})
     }
 
     async getReviewRequestPromise(pullRequest) {
@@ -34,7 +30,7 @@ class GitHubApiClient {
             number: parseInt(pullRequestUrlSplit[pullRequestUrlSplit.length - 1]),
         }
 
-        const reviewsPromise = this.github.pullRequests.getReviewRequests(reviewRequestBody)
+        const reviewsPromise = octokit.pullRequests.getReviewRequests(reviewRequestBody)
 
         return reviewsPromise
     }
@@ -48,27 +44,32 @@ class GitHubApiClient {
     }
 
     async getAllPullRequests(organization, labels) {
-        const pullRequestsResponse = await this.getOrganizationOpenPullPromise(organization)
+        let pullRequestsResponse = await this.getOrganizationOpenPullPromise(organization)
 
-        // console.log(pullRequestsResponse.data.total_count + ' Pull Requests Found')
+        console.log(pullRequestsResponse.data.total_count + ' Pull Requests Found')
 
-        const pullRequests = pullRequestsResponse.data.items
+        let pullRequests = pullRequestsResponse.data.items
 
-        var filteredPullRequests = pullRequests
+        while (octokit.hasNextPage(pullRequestsResponse)) {
+            console.log('Paginating...')
 
-        if (labels.length > 0) {
-            filteredPullRequests = pullRequests.filter(pr => this.pullRequestContainsLabel(pr, labels))
-
-            // console.log(filteredPullRequests.length + ' Pull Requests Matched Label')
+            pullRequestsResponse = await octokit.getNextPage(pullRequestsResponse)
+            pullRequests = pullRequests.concat(pullRequestsResponse.data.items)
         }
 
-        await Promise.all(filteredPullRequests.map(this.getReviewRequestsForPullRequest))
+        if (labels.length > 0) {
+            pullRequests = pullRequests.filter(pr => this.pullRequestContainsLabel(pr, labels))
 
-        filteredPullRequests = filteredPullRequests.filter(this.isAnyBodyTagged)
+            console.log(pullRequests.length + ' Pull Requests Matched Label')
+        }
 
-        console.log(filteredPullRequests.length + ' Pull Requests Matched Review Request')
+        await Promise.all(pullRequests.map(this.getReviewRequestsForPullRequest))
 
-        return filteredPullRequests
+        pullRequests = pullRequests.filter(this.isAnyBodyTagged)
+
+        console.log(pullRequests.length + ' Pull Requests Matched Review Request')
+
+        return pullRequests
     }
 
     pullRequestContainsLabel(pullRequest, labels) {

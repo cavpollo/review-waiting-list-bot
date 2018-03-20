@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "botkit": "^0.5.5",
-    "github": "^13.1.0",
+    "@octokit/rest": "^15.2.0",
     "heroku-client": "^3.0.6",
     "lodash": "^4.17.4"
   },
