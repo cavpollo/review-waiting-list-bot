@@ -91,7 +91,7 @@ class App {
 }
 
 function formatPullRequest(pullRequest) {
-    return `${pullRequest.critical ? ':sos:' : ''} \`${pullRequest.title}\` ${pullRequest.tagged ? pullRequest.tagged.join(' ') : ''} - ${pullRequest.html_url}`
+    return `${pullRequest.critical ? ':rotating_light:' : ''} \`${pullRequest.title}\` ${pullRequest.tagged ? pullRequest.tagged.join(' ') : ''} - ${pullRequest.html_url}`
 }
 
 function getRandomMessage(messages){
