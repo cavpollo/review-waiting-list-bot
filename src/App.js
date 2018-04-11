@@ -12,7 +12,7 @@ const workMessage = ['Chop chop, people!',
     'Whenever a PR goes unreviewed for more than a couple hours, a programmer gets bored and starts coding yet another CMS/ERP system. Please, let this madness stop!',
     'I don\'t want to point any fingers, but we need more eyeballs here.',
     'Tip: If you are too busy, just look for a missing `final` and reject the PR, it will buy you more time.',
-    'Tip: If you thinl the reviewer\'s change request are annoying, just dissmiss his opinions with an "Out of scope". Works every time.',
+    'Tip: If you think the reviewer\'s change request are annoying, just dismiss his opinions with an "Out of scope". Works. Every. Time.',
     'I don\'t get paid enough for this... do I even get paid at all?',
     'Roses are red.\nViolets are blue.\nI see you are bored.\nHere\'s some code to review.',
     'It\'s all fun and games until somebody gets his PR closed. Remember to check CircleCI\' status before submitting PRs for review.',
@@ -24,6 +24,7 @@ const workMessage = ['Chop chop, people!',
     'Can somebody program me so that I can comment on those code reviews. I really wan\'t to help...',
     '♪ Wake me uuuuup, when the code review ends ♫',
     'And remember, your code should be like abstract art. The less we see of it, the better.',
+    'Remember to give your best by coding like there was no tomorrow. Just like our deadlines...',
     'This service was brought to you by "The Cult of the Parrot". The only cult were partying is encouraged.',
     'Think about this for a second: If the company starts paying by commit, then every time changes are requested, the richer you\'ll become. +Mindblown+ ',
     'For the holy party parrot in the sky, please let these PRs be less than 10 files each :pray:.',
@@ -33,6 +34,7 @@ const workMessage = ['Chop chop, people!',
     'Could somebody show some mercy and put these PRs out of their misery? I mean, just look at them.',
     'It could be worse, you know? You could be forced to do QA to this code... :cold_sweat:',
     'Do you ever wonder why I seem to be saying the same things over and over again? Well, that\'s what a parrot does best, duh.',
+    'If your review comment is more than 5 lines long, you are doing something wrong.',
     'Oh, these PRs? No, they are not important, pffff. It is not as if the pipeline was stopped because it needs your approval. That\'s crazy talk.',
     'I came here to chew gum and pester you about the pending PRS, and I\'m all out of bubble gum.',
     'I think I speak on behalf of everyone when I say, that we would be much honored if you people could critique this beautiful pieces of art.',
@@ -89,7 +91,7 @@ class App {
 }
 
 function formatPullRequest(pullRequest) {
-    return `\`${pullRequest.title}\` ${pullRequest.tagged ? pullRequest.tagged.join(' ') : ''} - ${pullRequest.html_url}`
+    return `${pullRequest.critical ? ':sos:' : ''} \`${pullRequest.title}\` ${pullRequest.tagged ? pullRequest.tagged.join(' ') : ''} - ${pullRequest.html_url}`
 }
 
 function getRandomMessage(messages){

@@ -14,12 +14,12 @@ class GitHubApiClient {
 
         this.userMapping = JSON.parse(process.env.USER_MAPPING || '{}')
 
-        _.bindAll(this, ['getAllPullRequests', 'getReviewRequestsForPullRequest', 'getReviewRequestPromise', 'getOrganizationOpenPullPromise', 'getRequestedReviewer'])
+        _.bindAll(this, ['getAllPullRequests', 'getReviewRequestsForPullRequest', 'getReviewRequestPromise', 'getOrganizationOpenPullPromise', 'getRequestedReviewer', 'isPullRequestCritical'])
     }
 
     async getOrganizationOpenPullPromise(organization) {
         const query = `type:pr+state:open+org:${organization}`
-        return octokit.search.issues({q: query, per_page: max_page_size})
+        return octokit.search.issues({q: query, per_page: max_page_size, sort: 'updated', order: 'desc'})
     }
 
     async getReviewRequestPromise(pullRequest) {
@@ -63,6 +63,8 @@ class GitHubApiClient {
             console.log(pullRequests.length + ' Pull Requests Matched Label')
         }
 
+        pullRequests = pullRequests.map(this.isPullRequestCritical)
+
         await Promise.all(pullRequests.map(this.getReviewRequestsForPullRequest))
 
         pullRequests = pullRequests.filter(this.isAnyBodyTagged)
@@ -79,6 +81,12 @@ class GitHubApiClient {
         }
 
         return pullRequestLabels.some((pullRequestLabel) => labels.indexOf(pullRequestLabel.name) >= 0)
+    }
+
+    isPullRequestCritical(pullRequest) {
+        pullRequest.critical = this.pullRequestContainsLabel(pullRequest, 'CRITICAL')
+
+        return pullRequest
     }
 
     getRequestedReviewer(requestedReviewer) {
