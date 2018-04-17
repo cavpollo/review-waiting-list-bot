@@ -18,6 +18,14 @@ argument | presence | description
 organization | Required | Your organization name.
 labels | Optional | You can specify multiple labels comma separated.
 
+Also, you'll need to configure the following variables in your Heroku environment:
+
+```
+GITHUB_AUTH_TOKEN=987fed
+SLACK_BOT_TOKEN=123456
+USER_MAPPING={"githubUsername":"slackUserId"}
+```
+
 ### Tips
 
 You can use this bot even better in combination with the Slack reminder.
