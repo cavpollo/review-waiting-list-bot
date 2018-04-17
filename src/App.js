@@ -69,15 +69,17 @@ class App {
     const client = new GitHubApiClient()
 
     client.getAllPullRequests(organization, labels).then((pullRequests) => {
+        var botMessage
+
         if (pullRequests.length > 0) {
-            var botMessage = ':warning: Attention! :warning:\nThese PRs with labels ' + labels.join(', ') + ' need to be reviewed:\n'
+            botMessage = ':warning: Attention! :warning:\nThese PRs with labels ' + labels.join(', ') + ' need to be reviewed:\n'
             botMessage += pullRequests.map(formatPullRequest).join('\n')
             botMessage += '\n\n:party_parrot: ' + getRandomMessage(workMessage)
-
-            bot.reply({channel: message.channel}, {'text': botMessage, 'link_names': 1, 'parse': 'full', 'attachments': []})
         } else {
-            bot.reply({channel: message.channel}, {'text': 'No pull requests with labels ' + labels.join(', ') + ' for now! :party_parrot:\n' + getRandomMessage(nothingMessage)})
+            botMessage = 'No pull requests with labels ' + labels.join(', ') + ' for now! :party_parrot:\n' + getRandomMessage(nothingMessage)
         }
+
+        bot.reply({channel: message.channel}, {'text': botMessage})
 
         console.log('Done notifying')
     })
