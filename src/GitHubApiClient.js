@@ -92,7 +92,7 @@ class GitHubApiClient {
     getRequestedReviewer(requestedReviewer) {
         const githubUsername = requestedReviewer.login
         const slackUsername = this.userMapping[githubUsername]
-        return '@' + (slackUsername === undefined ? githubUsername : slackUsername)
+        return slackUsername === undefined ? '*' + githubUsername + '*' : '<@' + slackUsername + '>'
     }
 
     isAnyBodyTagged(pullRequest) {
