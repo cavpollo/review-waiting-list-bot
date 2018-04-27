@@ -23,9 +23,9 @@ class Parser {
 
         var regexp = new RegExp()
         if (type === 'multiple') {
-            regexp = new RegExp(`${argName}:"([A-z0-9-_,/ ]+)"`)
+            regexp = new RegExp(`${argName}:["']([A-z0-9-_,/ ]+)["']`)
         } else if (type === 'single') {
-            regexp = new RegExp(`${argName}:"([A-z0-9-_/ ]+)"`)
+            regexp = new RegExp(`${argName}:["']([A-z0-9-_/ ]+)["']`)
         }
 
         const matched = this.args.match(regexp)
