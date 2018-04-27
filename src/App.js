@@ -93,11 +93,23 @@ class App {
 }
 
 function formatPullRequest(pullRequest) {
-    return `${pullRequest.critical ? ':rotating_light:' : ''} \`${pullRequest.title}\` ${pullRequest.tagged ? pullRequest.tagged.join(' ') : ''} - ${pullRequest.html_url}`
+    return `${pullRequest.critical ? ':rotating_light:' : ''} \`${pullRequest.title}\` ${pullRequest.tagged ? pullRequest.tagged.join(' ') : ''} - ${formatUrl(pullRequest.html_url)}`
 }
 
 function getRandomMessage(messages){
     return messages[Math.floor(Math.random() * messages.length)]
+}
+
+function formatUrl(html_url){
+    const regexp = new RegExp(`\\/([^\\/]+)\\/pull\\/(\\d+)$`)
+
+    const matched = html_url.match(regexp)
+
+    if (matched) {
+        return '<' + html_url + '|' + matched[1] + ' #' + matched[2] + '>'
+    }
+
+    return html_url
 }
 
 module.exports = App
